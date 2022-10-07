@@ -61,9 +61,9 @@ criterion = nn.CrossEntropyLoss(weight = imbalance_weight)
 
 max_val_auc = 0
 max_val_iou = [0.0, 0.0]
-from torch.utils.tensorboard import SummaryWriter
+# from torch.utils.tensorboard import SummaryWriter
 
-tb = SummaryWriter()
+# tb = SummaryWriter()
 
 
 for epoch in range(cfg['model_params']['epoch']):
@@ -192,7 +192,7 @@ for epoch in range(cfg['model_params']['epoch']):
             'Train IoU':train_IoU, 'Validation IoU': val_IoU, 'Validation AUC': val_auc, 
             'Max Validaton_AUC': max_val_auc, "Max IoU Tampered": max_val_iou}
 
-        tb.add_scalar("auc", val_auc, epoch+1)
+        # tb.add_scalar("auc", val_auc, epoch+1)
         write_logger(filename_log, cfg, **logs)
 
 
