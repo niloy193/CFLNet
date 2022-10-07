@@ -68,13 +68,9 @@ max_val_iou = [0.0, 0.0]
 
 for epoch in range(cfg['model_params']['epoch']):
     train_loss = AverageMeter()
-    train_inter = AverageMeter()
-    train_union = AverageMeter()
     train_sloss = AverageMeter()
     train_closs = AverageMeter()
     
-    
-
     for sample in tqdm(training_generator):
         model.train()
         optimizer.zero_grad()
@@ -122,11 +118,6 @@ for epoch in range(cfg['model_params']['epoch']):
         train_sloss.update(loss.detach().cpu().item())
         
         
-        intr, uni = batch_intersection_union(pred, tar, num_class = cfg['model_params']['num_class'])
-        
-        train_inter.update(intr)
-        train_union.update(uni)
-        
     
     scheduler.step()    
         
@@ -135,15 +126,10 @@ for epoch in range(cfg['model_params']['epoch']):
     if cfg['global_params']['with_con'] == True:
         train_contrast = train_closs.avg
     
-    train_IoU = train_inter.sum/(train_union.sum + 1e-10)
-    train_IoU = train_IoU.tolist()
-    train_mIoU = np.mean(train_IoU)
-    train_mIoU = train_mIoU.tolist()
     
     with torch.no_grad():
         model.eval()
-        val_inter = AverageMeter()
-        val_union = AverageMeter()
+
         val_pred = []
         val_tar = []
         auc = []
@@ -151,9 +137,7 @@ for epoch in range(cfg['model_params']['epoch']):
             img, tar = img.to(device), tar.to(device)
             pred, _ = model(img)
             pred = F.interpolate(pred, img.shape[2:], mode= 'bilinear', align_corners = True)
-            intr, uni = batch_intersection_union(pred, tar, num_class = cfg['model_params']['num_class'])
-            val_inter.update(intr)
-            val_union.update(uni)
+           
             
             y_score = F.softmax(pred, dim=1)[:,1,:,:]
             
@@ -174,23 +158,14 @@ for epoch in range(cfg['model_params']['epoch']):
         if val_auc > max_val_auc:
             max_val_auc = val_auc
 
-        val_IoU = val_inter.sum/(val_union.sum + 1e-10)
-        val_IoU = val_IoU.tolist()
-        val_mIoU = np.mean(val_IoU)
-        val_mIoU = val_mIoU.tolist()
-
-        if val_IoU[1] > max_val_iou[1]:
-            max_val_iou = val_IoU
 
         if cfg['global_params']['with_con'] == True:
-            logs = {'epoch': epoch, 'Softmax Loss':train_softmax, 'Contrastive Loss':train_contrast,
-            'Train IoU':train_IoU, 'Validation IoU': val_IoU, 'Validation AUC': val_auc, 
-            'Max Validaton_AUC': max_val_auc, "Max IoU Tampered": max_val_iou}
+            logs = {'epoch': epoch, 'Softmax Loss':train_softmax, 'Contrastive Loss':train_contrast, 
+            'Validation AUC': val_auc, 'Max Validaton_AUC': max_val_auc}
         
         else:
             logs = {'epoch': epoch, 'Softmax Loss':train_softmax,
-            'Train IoU':train_IoU, 'Validation IoU': val_IoU, 'Validation AUC': val_auc, 
-            'Max Validaton_AUC': max_val_auc, "Max IoU Tampered": max_val_iou}
+            'Validation AUC': val_auc, 'Max Validaton_AUC': max_val_auc}
 
         # tb.add_scalar("auc", val_auc, epoch+1)
         write_logger(filename_log, cfg, **logs)
