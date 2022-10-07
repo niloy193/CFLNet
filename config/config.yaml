@@ -12,7 +12,8 @@ model_params:
     con_alpha: 1
 
 dataset_params:
-    base_dir: '/home/forgery/'
+    dataset_name: 'imd_2020' #imd_2020 or casia or nist or coverage
+    base_dir: 'C:\Users\Kishor\OneDrive\Documents\CFLNet\'
     batch_size: 4
     patch_size: 4
     im_size: 256
