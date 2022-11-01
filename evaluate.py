@@ -8,7 +8,7 @@ from utils.utils import AverageMeter, batch_intersection_union, set_random_seed
 from sklearn import metrics
 import timm
 import yaml
-from model.model import ConSegNet
+from model.model import CFLNet
 import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--pretrained_model', action='store', type=str, help='evaluate on test data with pretrained model')
