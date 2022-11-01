@@ -12,7 +12,7 @@ model_params:
     con_alpha: 1
 
 dataset_params:
-    dataset_name: 'imd_2020'
+    dataset_name: 'imd_2020' #imd_2020 or casia or nist or coverage
     base_dir: '/home/forgery/'
     imd_2020_dir: '/home/data/forgery/IMD2020'
     batch_size: 4
