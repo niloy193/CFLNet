@@ -15,8 +15,19 @@ dataset_params:
     base_dir: '/home/forgery/'
     batch_size: 4
     patch_size: 4
-    im_size: 256
+    im_size: 224
     contrast_temperature: 0.1
     mean: [0.485, 0.456, 0.406] 
     std: [0.229, 0.224, 0.225]
     imbalance_weight: [0.0892, 0.9108]  
+
+dataset_params_eval:
+    dataset_name: 'imd_2020' #imd_2020 or casia or nist or coverage
+    imd_2020_dir: '/home/data/forgery/IMD2020'
+    batch_size: 4
+    im_size: 224
+    patch_size: 4
+    contrast_temperature: 0.1
+    mean: [0.485, 0.456, 0.406] 
+    std: [0.229, 0.224, 0.225]
+    imbalance_weight: [0.0892, 0.9108]  #synthetic_imbalance [0.0484,0.9516]
