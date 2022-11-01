@@ -38,21 +38,6 @@ class Dataset(data.Dataset):
         mask = cv2.resize(mask, (im_size,im_size), interpolation = cv2.INTER_NEAREST)
         mask = mask/255.0
         mask = torch.from_numpy(mask)
-        # spliced_patch_len = self.cfg['dataset_params']['s_patch_len']
-        # pristine_patch_len = self.cfg['dataset_params']['p_patch_len']
-        # patch_size = self.cfg['dataset_params']['patch_size']
-        # if (self.is_patch == True) and (self.cfg['global_params']['with_con'] == True):
-        #     gp = Get_Patch(self.cfg)
-        #     ps = torch.empty((spliced_patch_len,mask.shape[0],mask.shape[1]))
-        #     for i in range(spliced_patch_len):
-        #         m = gp.get_spliced_patch(mask, patch_size, 5)
-        #         ps[i] = m
-        #     pp = torch.empty((pristine_patch_len,mask.shape[0],mask.shape[1]))
-        #     for i in range(pristine_patch_len):
-        #         m = gp.get_pristine_patch(mask, patch_size, 5)
-        #         pp[i] = m
-        #     return image, mask, ps, pp
-
         return image, mask
 
 def get_file_names(cfg):
