@@ -27,10 +27,11 @@ with torch.no_grad():
     in_planes = test_model(torch.randn((2,3,128,128)))[0].shape[1]
     del test_model
 
-model = ConSegNet(cfg, in_planes).to(device)
+model = CFLNet(cfg, in_planes).to(device)
+
 #from dataloader.loader import generator
 from dataloader.loader_imd import generator
-model.load_state_dict(torch.load('saved_model/' + args.pretrained_model))
+model.load_state_dict(torch.load(args.pretrained_model))
 
 
 gnr = generator(cfg)
