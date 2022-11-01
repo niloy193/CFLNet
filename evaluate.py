@@ -37,7 +37,7 @@ model.load_state_dict(torch.load(args.pretrained_model))
 gnr = generator(cfg)
 validation_generator = gnr.get_val_generator()
 
-casia_imbalance_weight = torch.tensor(cfg['dataset_params_eval']['imbalance_weight']).to(device)
+casia_imbalance_weight = torch.tensor(cfg['dataset_params']['imbalance_weight']).to(device)
 criterion = nn.CrossEntropyLoss(weight = casia_imbalance_weight)
 
 if __name__ == '__main__':
