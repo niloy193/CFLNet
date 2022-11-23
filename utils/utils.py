@@ -90,7 +90,7 @@ def set_random_seed(seed, deterministic=True):
     if deterministic:
         torch.backends.cudnn.deterministic = True
         torch.backends.cudnn.benchmark = False
-        torch.use_deterministic_algorithms(True)
+        
     
 def calfeaturevectors(feat, mask):
     #feat and mask both should be BXCXHXW
